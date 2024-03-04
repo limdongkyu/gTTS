@@ -36,7 +36,7 @@ text = st.text_input(
         "Text to talk about 👇",
     )
 
-if st.button('시작'):
+if st.button('start speaking.'):
     with st.spinner('Please wait a moment...'):
         speak(text, lang=selct_lang)
         st.success('The audio file has been created and played.')
