@@ -8,16 +8,17 @@ import tempfile
 def speak(text, lang='en'):
     with tempfile.NamedTemporaryFile(delete=True) as fp:
         tts = gTTS(text=text, lang=lang)
-        tts.save(fp.name + '.mp3')
+        tts.save(fp.name + '.wav')
         try:
-            # print(f"os.name - {os.name}")
+            print(f"os.name - {os.name}")
+            print(f"fp.name - {fp.name}")
             # raise Exception("test")
             
             # 운영체제에 따른 음성 파일 재생
             if os.name == 'nt':  # Windows
-                os.system(f'start {fp.name}.mp3')
+                os.system(f'start {fp.name}.wav')
             elif os.name == 'posix':  # Linux/macOS
-                os.system(f'afplay {fp.name}.mp3')  # macOS
+                os.system(f'afplay {fp.name}.wav')  # macOS
                 # Linux 사용자는 다음을 사용: os.system(f'mpg321 {fp.name}.mp3')
             else:
                 raise Exception("auto play not supported.")
@@ -25,9 +26,9 @@ def speak(text, lang='en'):
             print(f"error: {e}")
             try:
                 # streamlit에서 음성 파일 재생
-                audio_file = open(f'{fp.name}.mp3', 'rb')
+                audio_file = open(f'{fp.name}.wav', 'rb')
                 audio_bytes = audio_file.read()
-                st.audio(audio_bytes, format='audio/mp3', start_time=0)
+                st.audio(audio_bytes, format='audio/wav', start_time=0)
             except Exception as e:
                 st.error(e)
 
