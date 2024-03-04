@@ -9,13 +9,21 @@ def speak(text, lang='en'):
     with tempfile.NamedTemporaryFile(delete=True) as fp:
         tts = gTTS(text=text, lang=lang)
         tts.save(fp.name + '.mp3')
-        # 운영체제에 따른 음성 파일 재생
-        if os.name == 'nt':  # Windows
-            os.system(f'start {fp.name}.mp3')
-        elif os.name == 'posix':  # Linux/macOS
-            os.system(f'afplay {fp.name}.mp3')  # macOS
-            # Linux 사용자는 다음을 사용: os.system(f'mpg321 {fp.name}.mp3')
-            
+        try:
+            # 운영체제에 따른 음성 파일 재생
+            if os.name == 'nt':  # Windows
+                os.system(f'start {fp.name}.mp3')
+            elif os.name == 'posix':  # Linux/macOS
+                os.system(f'afplay {fp.name}.mp3')  # macOS
+                # Linux 사용자는 다음을 사용: os.system(f'mpg321 {fp.name}.mp3')
+        except Exception as e:
+            try:
+                # streamlit에서 음성 파일 재생
+                audio_file = open(f'{fp.name}.mp3', 'rb')
+                audio_bytes = audio_file.read()
+                st.audio(audio_bytes, format='audio/ogg', start_time=0)
+            except Exception as e:
+                st.error(e)
 
 st.write("## Google Text-to-Speech)")
 
