@@ -7,3 +7,4 @@
     pip install -r requirements.txt && streamlit run main.py
 
 ### 테스트 URL
+https://gtts-test.streamlit.app/
