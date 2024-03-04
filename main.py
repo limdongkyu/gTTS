@@ -17,6 +17,7 @@ def speak(text, lang='en'):
                 os.system(f'afplay {fp.name}.mp3')  # macOS
                 # Linux 사용자는 다음을 사용: os.system(f'mpg321 {fp.name}.mp3')
         except Exception as e:
+            print(f"error: {e}")
             try:
                 # streamlit에서 음성 파일 재생
                 audio_file = open(f'{fp.name}.mp3', 'rb')
